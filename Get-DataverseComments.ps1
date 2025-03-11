@@ -123,11 +123,11 @@ $processedData | Group-Object -Property 'App Id' | ForEach-Object {
 
         Write-Host "╚════════════════════════════════" -ForegroundColor Cyan
     }
-} | Select-Object -First 20
+} | Select-Object -First 50
 
 # Display warning if results were truncated
-if ($processedData.Count -gt 20) {
-    Write-Host "⚠️ Showing 20 of $($processedData.Count) comments in console. Specify output path argument to see them all." -ForegroundColor Yellow
+if ($processedData.Count -gt 50) {
+    Write-Host "⚠️ Showing 50 of $($processedData.Count) comments in console. Specify output path argument to see them all." -ForegroundColor Yellow
     Write-Host
 }
 

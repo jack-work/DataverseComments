@@ -1,10 +1,9 @@
 # 🔍 Dataverse Comment Viewer
-This viewer provides a simplified representation of Dataverse comments on Canvas Applications. Certain aspects of the commenting system, including deleted comments, orphaned comment threads, and resolved thread states, are not fully represented in this view. For complete comment functionality and state management, please refer to the native Dataverse interface.
+This viewer shows Dataverse comments on Canvas Applications.
 
 Long-term support and maintenance of this project is not guaranteed.
 
 Comment data is available in the Comments dataverse entity.  For more information about programmatically querying dataverse using OData, visit the official documentation: [Use OData to query data](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query/overview)
-
 ## 📋 Prerequisites
 - PowerShell 7+
     - Check your version by running `$PSVersionTable.PSVersion` in PowerShell
@@ -25,6 +24,21 @@ Connect-AzAccount
 # 3. Save the script to a file and run
 .\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com
 ```
+
+## Usage
+```powershell
+# Display results
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com
+
+# Write to file
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com ./comments.csv
+
+# Filter on application
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com -applicationId xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+## Arguments
+Arguments may be passed as named (e.g. -baseUrl https//example.crm.dynamics.com) or in order without names.
 
 ## Obtaining your organization's Dataverse environment endpoint
 - Navigate to https://make.powerapps.com, or whatever url you use to access Power Apps Maker Portal.
@@ -49,25 +63,16 @@ You should be shown diagnostic information that will include your environment ur
 | Cluster category | Prod |
 | Cluster geo name | US |
 | Cluster URI suffix | us-xx000.gateway.test.island |
+ Due to system constraints, deleted comments, orphaned threads, resolved states, and control names cannot be easily shown.
+
 
 ## How to find App Id
 Navigate to the following URL to view the details for the application in question.  You may need substitute the hostname with that which you normally use to access Power Apps.
 https://make.powerapps.com/environments/{your_environment_id}/apps/{app_id}/details
 
-## Usage
-```powershell
-# Display results
-.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com
-
-# Write to file
-.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com ./comments.csv
-
-# Filter on application
-.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com -applicationId xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-```
-
-## Arguments
-Arguments may be passed as named (e.g. -baseUrl https//example.crm.dynamics.com) or in order without names.
+## Known Limitations
+- Due to system constraints, deleted comments, orphaned threads, resolved states, and control names cannot be easily shown. 
+- By default, only the first 50 applications will be shown. This limit can be modified by editing the script directly to remove or adjust the result limit.
 
 ## 🔧 Troubleshooting
 - **Trouble passing arguments?** Run `Get-Help .\Get-DataverseComments.ps1 -Full` for detailed parameter documentation.
@@ -77,5 +82,7 @@ Arguments may be passed as named (e.g. -baseUrl https//example.crm.dynamics.com)
 - **Too many comments to read in terminal?** Follow the instructions to write to output file, and use a spreadsheet application to organize the data.
 
 ## 📱 Need Help?
+Feel free to leave and issue on the repository or engage in the repo's discussion.  I will try to answer any questions as is necessary.
+
 Contact your Dataverse administrator or Microsoft support.  This data may be accessed from Dataverse directly in the comments entity.
 
