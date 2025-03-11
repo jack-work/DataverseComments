@@ -37,7 +37,7 @@ $bearerToken = $null
 Remove-Variable -Name tokenCredential -ErrorAction SilentlyContinue
 
 Write-Host "📡 Fetching comments from the API..." -ForegroundColor Green
-$canvasAppArtifactType = 1 # I don't know what the other artifact types are.
+$canvasAppArtifactType = 1 # 1 is for Canvas Apps. I don't know what the other artifact types are.
 $query = "/api/data/v9.1/comments?`$expand=Container(`$select=artifactid,artifacttype)&`$filter=Container/artifacttype%20eq%20$canvasAppArtifactType"
 if ($applicationId) {
     $query = $query + "%20and%20Container/artifactid%20eq%20'$applicationId'"
