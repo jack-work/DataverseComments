@@ -13,7 +13,7 @@ Comment data is available in the Comments dataverse entity.  For more informatio
 ## ⚡ Setup
 ```powershell
 # 0. Clone this repository and navigate to its directory,
-# or copy the contents of ViewComments.ps1 into a local file
+# or copy the contents of Get-DataverseComments.ps1 into a local file
 # and open PowerShell in the same folder.
 
 # 1. Install Az module if not already installed
@@ -23,7 +23,7 @@ Install-Module -Name Az -Repository PSGallery -Force
 Connect-AzAccount
 
 # 3. Save the script to a file and run
-.\ViewComments.ps1 https://your-org.crm.dynamics.com
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com
 ```
 
 ## Obtaining your organization's Dataverse environment endpoint
@@ -57,20 +57,20 @@ https://make.powerapps.com/environments/{your_environment_id}/apps/{app_id}/deta
 ## Usage
 ```powershell
 # Display results
-.\ViewComments.ps1 https://your-org.crm.dynamics.com
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com
 
 # Write to file
-.\ViewComments.ps1 https://your-org.crm.dynamics.com ./comments.csv
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com ./comments.csv
 
 # Filter on application
-.\ViewComments.ps1 https://your-org.crm.dynamics.com -applicationId xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+.\Get-DataverseComments.ps1 https://your-org.crm.dynamics.com -applicationId xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
 ## Arguments
 Arguments may be passed as named (e.g. -baseUrl https//example.crm.dynamics.com) or in order without names.
 
 ## 🔧 Troubleshooting
-- **Trouble passing arguments?** Run `Get-Help .\ViewComments.ps1 -Full` for detailed parameter documentation.
+- **Trouble passing arguments?** Run `Get-Help .\Get-DataverseComments.ps1 -Full` for detailed parameter documentation.
 - **Auth fails?** Run `Connect-AzAccount` again
 - **Permission errors?** Verify Dataverse access rights
 - **Module issues?** Run `Update-Module -Name Az`
