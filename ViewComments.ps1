@@ -1,6 +1,6 @@
 <#
-.DESCRIPTION
-    Fetches comment data from Dataverse and formats it in a human readable way.
+.SYNOPSIS
+    Fetches comment data associated with Canvas Apps from Dataverse and formats it in a human readable way.
 
 .PARAMETER baseUrl
     The endpoint of the Dataverse environment where the desired comments are located.
@@ -8,22 +8,22 @@
 .PARAMETER outputPath
     Optional path to save the results to a CSV file.
 
+.PARAMETER applicationId
+    Filters the results to only comments to a provided application name.
+
 .NOTES
     Copyright (c) Microsoft Corporation. All rights reserved.
-
-.REQUIREMENTS
-    - PowerShell 7 or later
-    - Az PowerShell module
-    - Azure authentication (run Connect-AzAccount first)
-    - Network access to Dataverse environment
-    - Appropriate Dataverse permissions to read comments
 #>
+
 param(
     [Parameter(Mandatory=$true)]
     [string]$baseUrl,
 
     [Parameter(Mandatory=$false)]
-    [string]$outputPath
+    [string]$outputPath,
+
+    [Parameter(Mandatory=$false)]
+    [string]$applicationId
 )
 
 Write-Host "🔑 Authenticating with $baseUrl..." -ForegroundColor Cyan
@@ -37,7 +37,12 @@ $bearerToken = $null
 Remove-Variable -Name tokenCredential -ErrorAction SilentlyContinue
 
 Write-Host "📡 Fetching comments from the API..." -ForegroundColor Green
-$query = "/api/data/v9.1/comments?`$expand=Container(`$select=artifactid,artifacttype)&`$filter=Container/artifacttype%20eq%201&`$select=anchor,body,originalauthorfullname,createdon"
+$canvasAppArtifactType = 1 # I don't know what the other artifact types are.
+$query = "/api/data/v9.1/comments?`$expand=Container(`$select=artifactid,artifacttype)&`$filter=Container/artifacttype%20eq%20$canvasAppArtifactType"
+if ($applicationId) {
+    $query = $query + "%20and%20Container/artifactid%20eq%20'$applicationId'"
+}
+$query = $query + "&`$select=anchor,body,originalauthorfullname,createdon,state"
 $fullUrl = $baseUrl + $query
 $response = Invoke-RestMethod -Uri $fullUrl -Headers $headers -Method Get
 
@@ -57,6 +62,9 @@ $processedData = $response.value | Select-Object @{
 }, @{
     Name='Thread Id'
     Expression={$_.anchor}
+}, @{
+    Name='State'
+    Expression={if ($_.state -eq 0) { 'Active' } else { 'Inactive' }}
 }, @{
     Name='Comment Id'
     Expression={$_.commentid}
@@ -85,6 +93,7 @@ $processedData | Group-Object -Property 'App Id' | ForEach-Object {
 
         # Display parent comment
         Write-Host "║ 📝 $($parentComment.'Created On')" -ForegroundColor Yellow
+        Write-Host "║ 🔄 $($parentComment.'State')" -ForegroundColor Yellow
         Write-Host "║ 👤 $($parentComment.Author)" -ForegroundColor Yellow
         Write-Host "║ $($parentComment.Comment)" -ForegroundColor White
 
@@ -118,3 +127,4 @@ if ($outputPath) {
 }
 
 Write-Host "✅ Operation completed successfully!" -ForegroundColor Blue
+

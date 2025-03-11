@@ -1,7 +1,11 @@
 # 🔍 Dataverse Comment Viewer
 This application renders Dataverse comments in a table format in the console.
 
-**Disclaimer**: Long-term support and maintenance of this project is not guaranteed.
+DISCLAIMER: This viewer provides a simplified representation of Dataverse comments. Certain aspects of the commenting system, including deleted comments, orphaned comment threads, and resolved thread states, are not fully represented in this view. For complete comment functionality and state management, please refer to the native Dataverse interface.
+
+Long-term support and maintenance of this project is not guaranteed.
+
+Comment data is available in the Comments dataverse entity.  For more information about programmatically querying dataverse using OData, visit the official documentation: [Use OData to query data](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query/overview)
 
 ## 📋 Prerequisites
 - PowerShell 7+
@@ -11,7 +15,8 @@ This application renders Dataverse comments in a table format in the console.
 ## ⚡ Setup
 ```powershell
 # 0. Clone this repository and navigate to its directory,
-or copy the contents of ViewComments.ps1 into a local file and open PowerShell in the same folder.
+# or copy the contents of ViewComments.ps1 into a local file
+# and open PowerShell in the same folder.
 
 # 1. Install Az module if not already installed
 Install-Module -Name Az -Repository PSGallery -Force
@@ -29,7 +34,7 @@ Connect-AzAccount
 - Click on the gear (add emoji here) in the upper right-hand corner.
 - Click on 'Session Details'
 
-You should be shown diagnostic information that will include your environment url, like so:
+You should be shown diagnostic information that will include your environment url as "Instance url", like so:
 Timestamp: 2025-03-11T18:30:03.887Z
 Session ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Tenant ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
@@ -37,7 +42,7 @@ Object ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Build name: 0.0.20250306.7-2503.2-prod
 Organization ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Unique name: unqxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-Instance url: https://example.crm.dynamics.com/
+Instance url: **https://example.crm.dynamics.com/**
 Environment ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Cluster environment: Prod
 Cluster category: Prod
@@ -55,9 +60,16 @@ https://make.powerapps.com/environments/{your_environment_id}/apps/{app_id}/deta
 
 # Write to file
 .\ViewComments.ps1 https://your-org.crm.dynamics.com ./comments.csv
+
+# Filter on application
+.\ViewComments.ps1 https://your-org.crm.dynamics.com -applicationId xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
+## Arguments
+Arguments may be passed as named (e.g. -baseUrl https//example.crm.dynamics.com) or in order without names.
+
 ## 🔧 Troubleshooting
+- **Trouble passing arguments?** Run `Get-Help .\ViewComments.ps1 -Full` for detailed parameter documentation.
 - **Auth fails?** Run `Connect-AzAccount` again
 - **Permission errors?** Verify Dataverse access rights
 - **Module issues?** Run `Update-Module -Name Az`
