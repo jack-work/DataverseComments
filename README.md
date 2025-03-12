@@ -82,7 +82,7 @@ https://make.powerapps.com/environments/{your_environment_id}/apps/{app_id}/deta
 - **Too many comments to read in terminal?** Follow the instructions to write to output file, and use a spreadsheet application to organize the data.
 
 ## 📱 Need Help?
-Feel free to leave and issue on the repository or engage in the repo's discussion.  I will try to answer any questions as is necessary.
+Feel free to leave an issue or start a discussion. I'll try to help where I can.
 
 Contact your Dataverse administrator or Microsoft support.  This data may be accessed from Dataverse directly in the comments entity.
 
