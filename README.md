@@ -71,7 +71,7 @@ Navigate to the following URL to view the details for the application in questio
 https://make.powerapps.com/environments/{your_environment_id}/apps/{app_id}/details
 
 ## Known Limitations
-- Due to system constraints, deleted comments, orphaned threads, resolved states, and control names cannot be easily shown. 
+- Due to system constraints, certain comment details (e.g. control names) cannot be shown. 
 - By default, only the first 50 applications will be shown. This limit can be modified by editing the script directly to remove or adjust the result limit.
 
 ## 🔧 Troubleshooting
